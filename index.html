@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2morrow coffee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: the café's dark brick facade with white neon frames as the hero; plum take-away cup colour as accent; menu board with sizes; drink-finder; work & ping-pong strip. */
+:root{
+  --bg:#F3F0EB;
+  --card:#FFFFFF;
+  --fg:#1B1A1B;
+  --muted:#6C6763;
+  --line:#E0DAD2;
+  --plum:#5C2A31;
+  --wood:#A87A52;
+  --night:#1C1B1D;
+  --neon:#FFF7EA;
+  --display:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141314;--card:#1E1C1E;--fg:#F1EDE8;--muted:#ACA49C;--line:#332F31;--plum:#C57882;--wood:#C99A70;--night:#0E0D0E;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141314;--card:#1E1C1E;--fg:#F1EDE8;--muted:#ACA49C;--line:#332F31;--plum:#C57882;--wood:#C99A70;--night:#0E0D0E;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--display);font-size:17px;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{margin:0;line-height:1.05;text-wrap:balance;font-weight:800;letter-spacing:-.02em}
+a{color:var(--plum)}
+:focus-visible{outline:3px solid var(--wood);outline-offset:3px}
+.demo{font-size:13px;color:var(--muted);border-bottom:1px solid var(--line)}
+.demo .wrap{padding-block:7px}
+
+/* facade hero */
+.facade{background:var(--night);color:var(--neon);
+  background-image:repeating-linear-gradient(0deg,transparent 0 22px,rgba(255,255,255,.035) 22px 24px),repeating-linear-gradient(90deg,transparent 0 50px,rgba(255,255,255,.035) 50px 52px)}
+.facade .bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:18px}
+.word{font-weight:800;font-size:24px;letter-spacing:.32em}
+.word small{display:block;font-weight:500;font-size:11px;letter-spacing:.3em;opacity:.7;margin-top:2px}
+.facade nav{display:flex;gap:18px;flex-wrap:wrap}
+.facade nav a{color:var(--neon);opacity:.85;text-decoration:none;font-weight:500;font-size:15px}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:36px;align-items:center;padding-block:36px 64px}
+.hero h1{font-size:clamp(40px,6.6vw,80px)}
+.hero p{font-size:19px;opacity:.82;max-width:30em;margin:18px 0 0}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.btn{font:inherit;font-weight:700;text-decoration:none;padding:12px 20px;border-radius:999px;border:2px solid currentColor;background:none;color:inherit;cursor:pointer}
+.btn.solid{background:var(--neon);color:var(--night);border-color:var(--neon)}
+.frames{display:flex;gap:14px;justify-content:center;align-items:flex-end}
+.frame{border:3px solid var(--neon);border-radius:4px;box-shadow:0 0 18px rgba(255,247,234,.55),inset 0 0 14px rgba(255,247,234,.25);display:grid;place-items:end center;padding:10px;font-family:var(--mono);font-size:12px;letter-spacing:.1em}
+.frame.door{width:96px;height:200px}
+.frame.win{width:130px;height:150px;background:linear-gradient(180deg,rgba(201,154,112,.35),rgba(201,154,112,.08))}
+.facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px}
+.facts b{display:block;font-size:26px;font-variant-numeric:tabular-nums}
+.facts span{font-size:13px;opacity:.7}
+
+section{padding-block:60px}
+section + section{border-top:1px solid var(--line)}
+section h2{font-size:clamp(30px,4.6vw,48px)}
+.sub{color:var(--muted);max-width:40em;margin:10px 0 0}
+
+/* finder */
+.finder{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:26px;align-items:stretch}
+.moods{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.moods button{font:inherit;font-weight:700;text-align:left;padding:16px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.moods button small{display:block;font-weight:500;color:var(--muted);font-size:14px}
+.moods button[aria-pressed="true"]{border-color:var(--plum);box-shadow:0 0 0 3px color-mix(in srgb,var(--plum) 18%,transparent)}
+.cup{background:var(--plum);color:#FBF3EC;border-radius:22px;padding:26px;display:grid;gap:10px;align-content:center}
+.cup .k{font-family:var(--mono);font-size:12px;letter-spacing:.18em;opacity:.8}
+.cup .nm{font-size:clamp(28px,4vw,40px);font-weight:800;line-height:1.05}
+.cup .ds{opacity:.85;margin:0}
+.cup .pr{font-family:var(--mono);font-size:20px}
+
+/* menu */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+.tabs button{font:inherit;font-weight:700;font-size:15px;padding:9px 16px;border-radius:999px;border:2px solid var(--line);background:none;color:var(--fg);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.board{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+.board li{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
+.board .n{font-weight:700;min-width:0}
+.board .v{font-family:var(--mono);font-size:13px;color:var(--muted);white-space:nowrap}
+.board .p{font-family:var(--mono);font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
+.bakery{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.bakery span{background:var(--card);border:1px solid var(--line);padding:7px 14px;border-radius:999px;font-weight:500}
+
+/* perks */
+.perks{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.perk{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;gap:6px}
+.perk b{font-size:19px}
+.perk span{color:var(--muted);font-size:15px}
+.perk .ic{font-family:var(--mono);color:var(--plum);font-size:13px;letter-spacing:.14em}
+
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+blockquote{margin:0;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+blockquote p{margin:0;font-size:19px;font-weight:700;line-height:1.35}
+blockquote cite{display:block;margin-top:10px;font-style:normal;font-size:14px;color:var(--muted)}
+
+.visit{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;margin-top:26px}
+dl{margin:0;display:grid;gap:12px}
+.row{display:grid;grid-template-columns:110px 1fr;gap:12px}
+.row dt{color:var(--muted)}
+.row dd{margin:0;font-weight:600;min-width:0}
+.dark{background:var(--night);color:var(--neon);border-radius:22px;padding:24px;display:grid;gap:12px}
+.dark h3{font-size:26px}
+.dark p{margin:0;opacity:.85}
+.copy{font:inherit;font-size:13px;cursor:pointer;background:none;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:2px 10px;margin-left:8px}
+footer .wrap{padding-block:26px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+
+@media (max-width:860px){.perks{grid-template-columns:1fr 1fr}.quotes{grid-template-columns:1fr}}
+@media (max-width:700px){.hero,.finder,.visit{grid-template-columns:1fr}.board{grid-template-columns:1fr}.frames{order:-1}.row{grid-template-columns:96px 1fr}.facade nav{display:none}}
+@media (prefers-reduced-motion:no-preference){.frame{animation:hum 5s ease-in-out infinite}@keyframes hum{0%,100%{box-shadow:0 0 18px rgba(255,247,234,.55),inset 0 0 14px rgba(255,247,234,.25)}50%{box-shadow:0 0 26px rgba(255,247,234,.8),inset 0 0 18px rgba(255,247,234,.35)}}}
+</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<div class="demo"><div class="wrap">Демо-версия сайта. Меню и цены по данным кофейни на 5 сентября.</div></div>
+
+<div class="facade"><div class="wrap">
+  <div class="bar">
+    <div class="word">2MORROW<small>COFFEE · БАУМАНСКАЯ</small></div>
+    <nav aria-label="Разделы"><a href="#finder">Что выпить</a><a href="#menu">Меню</a><a href="#visit">Как найти</a></nav>
+  </div>
+  <div class="hero">
+    <div>
+      <h1>Кофе, ради которого хочется прийти завтра</h1>
+      <p>Кофейня в пяти минутах от Бауманской: авторские рафы и сезонные напитки, свежая выпечка, розетки у каждого стола и пинг-понг во дворе.</p>
+      <div class="cta">
+        <a class="btn solid" href="#finder">Подобрать напиток</a>
+        <a class="btn" href="https://t.me/coffee_2morrow" target="_blank" rel="noopener">Telegram</a>
+      </div>
+      <div class="facts">
+        <div><b>5,0</b><span>191 оценка</span></div>
+        <div><b>до 21:00</b><span>каждый день</span></div>
+        <div><b>от 190 ₽</b><span>эспрессо</span></div>
+      </div>
+    </div>
+    <div class="frames" aria-hidden="true">
+      <div class="frame win">COFFEE</div>
+      <div class="frame door">2MX</div>
+      <div class="frame win">BAKERY</div>
+    </div>
+  </div>
+</div></div>
+
+<section id="finder"><div class="wrap">
+  <h2>Что выпить сегодня</h2>
+  <p class="sub">Выберите настроение, и мы подскажем напиток из нашего меню. Бариста с радостью подберёт и что-то своё.</p>
+  <div class="finder">
+    <div class="moods" role="group" aria-label="Настроение" id="moods">
+      <button type="button" id="m1" aria-pressed="true" data-k="wake">Проснуться<small>крепко и честно</small></button>
+      <button type="button" id="m2" aria-pressed="false" data-k="sweet">Сладкого<small>десерт в чашке</small></button>
+      <button type="button" id="m3" aria-pressed="false" data-k="autumn">По-осеннему<small>согреться и пряно</small></button>
+      <button type="button" id="m4" aria-pressed="false" data-k="nocaf">Без кофеина<small>какао, матча, чай</small></button>
+      <button type="button" id="m5" aria-pressed="false" data-k="cold">Холодное<small>со льдом</small></button>
+      <button type="button" id="m6" aria-pressed="false" data-k="weird">Удивите меня<small>что-то необычное</small></button>
+    </div>
+    <div class="cup" aria-live="polite">
+      <span class="k">ВАШ НАПИТОК</span>
+      <span class="nm" id="dName">Фильтр</span>
+      <p class="ds" id="dDesc">Сложный, с ягодными нотами. Гости хвалят его за руку бариста.</p>
+      <span class="pr" id="dPrice">280 ₽ · 350 мл</span>
+    </div>
+  </div>
+</div></section>
+
+<section id="menu"><div class="wrap">
+  <h2>Меню</h2>
+  <div class="tabs" role="tablist" aria-label="Разделы меню" id="tabs"></div>
+  <ul class="board" id="board"></ul>
+  <div class="bakery" aria-label="Выпечка">
+    <span>Булочки с маком</span><span>Круассан с миндалём</span><span>Бриошь цезарь</span><span>Эклеры</span><span>Сырники</span><span>Сэндвичи</span>
+  </div>
+</div></section>
+
+<section id="perks"><div class="wrap">
+  <h2>Можно остаться надолго</h2>
+  <div class="perks">
+    <div class="perk"><span class="ic">01 · WORK</span><b>Розетки и Wi-Fi</b><span>Удобно работать с ноутбуком.</span></div>
+    <div class="perk"><span class="ic">02 · PLAY</span><b>Пинг-понг</b><span>Стол для настольного тенниса во дворе.</span></div>
+    <div class="perk"><span class="ic">03 · BEANS</span><b>Зерно домой</b><span>Продаём кофе в зёрнах.</span></div>
+    <div class="perk"><span class="ic">04 · CLUB</span><b>Программа лояльности</b><span>Спросите у бариста.</span></div>
+  </div>
+</div></section>
+
+<section id="reviews"><div class="wrap">
+  <h2>5,0 на Яндекс Картах</h2>
+  <div class="quotes">
+    <blockquote><p>«Это что за алмаз вообще?»</p><cite>Марина, Яндекс Карты</cite></blockquote>
+    <blockquote><p>«Наконец-то на Бауманке появилась кофейня с нормальным кофе»</p><cite>Александра, Яндекс Карты</cite></blockquote>
+    <blockquote><p>«Круассан с миндалём просто крышесносный»</p><cite>Богдан, Яндекс Карты</cite></blockquote>
+  </div>
+</div></section>
+
+<section id="visit"><div class="wrap">
+  <h2>Как найти</h2>
+  <div class="visit">
+    <dl>
+      <div class="row"><dt>Адрес</dt><dd>Москва, Бауманская ул., 11, стр. 10</dd></div>
+      <div class="row"><dt>Метро</dt><dd>Бауманская, около 5 минут пешком</dd></div>
+      <div class="row"><dt>Часы</dt><dd>Открыто до 21:00</dd></div>
+      <div class="row"><dt>Телефон</dt><dd>+7 (991) 122-52-71<button class="copy" id="copyPhone" type="button">Скопировать</button></dd></div>
+      <div class="cta" style="margin-top:4px">
+        <a class="btn" href="https://yandex.ru/maps/org/2morrow/59273827317/" target="_blank" rel="noopener">Маршрут</a>
+        <a class="btn" href="https://vk.ru/2morrow_coffee" target="_blank" rel="noopener">ВКонтакте</a>
+      </div>
+    </dl>
+    <div class="dark">
+      <h3>Ищите светящиеся рамки</h3>
+      <p>Тёмный кирпичный фасад, окна и двери обведены белым неоном, над входом надпись 2MORROW. Летом работают столики на улице.</p>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><span>2morrow coffee · Бауманская, 11 с10</span><span>Демо-версия сайта</span></div></footer>
+
+<script>
+var MENU={
+ "Классика":[["Эспрессо","60 мл",190],["Американо","350 мл",270],["Капучино","350 мл",290],["Флэт уайт","250 мл",290],["Фильтр","350 мл",280],["Латте","350 мл",340],["Раф","350 мл",340]],
+ "Спешл":[["Раф малиновый фреш","350 мл",420],["Раф цитрусовый","350 мл",420],["Халвичный латте","350 мл",400],["Латте с арахисом","400 мл",400],["Матча латте","350 мл",310],["Каскара","350 мл",290],["Какао перечный","250 мл",320],["Горячий шоколад горький","50 мл",320]],
+ "Осень":[["Латте пряная тыква","350 мл",460],["Латте персиковое пралине","350 мл",460],["Раф сливочный кунжут","350 мл",460],["Ходзича кедровый орех","350 мл",460],["Матча зелёное яблоко","350 мл",460],["Брусничный сбитень","350 мл",480],["Пунш малина-маракуйя","350 мл",520],["Какао чили-красный апельсин","350 мл",580]],
+ "Холодное":[["Айс-латте","500 мл",390],["Бамбл","500 мл",390],["Бамбл фреш","500 мл",590],["Фраппе эспрессо-банан","500 мл",420],["Протеиновый смузи","350 мл",550]]
+};
+var PICKS={wake:["Фильтр","Сложный, с ягодными нотами. Гости хвалят его за руку бариста.","280 ₽ · 350 мл"],
+ sweet:["Халвичный латте","Латте с халвой: сладко, орехово и очень уютно.","400 ₽ · 350 мл"],
+ autumn:["Латте пряная тыква","Главный напиток сезона: тыква, специи и бархатное молоко.","460 ₽ · 350 мл"],
+ nocaf:["Матча латте","Японский зелёный чай с молоком, бодрит мягко.","310 ₽ · 350 мл"],
+ cold:["Бамбл","Эспрессо и апельсиновый сок со льдом.","390 ₽ · 500 мл"],
+ weird:["Раф малиновый фреш","Не сладкий, с лёгким вкусом малины. Любимец гостей.","420 ₽ · 350 мл"]};
+document.querySelectorAll('#moods button').forEach(function(b){b.addEventListener('click',function(){
+  document.querySelectorAll('#moods button').forEach(function(x){x.setAttribute('aria-pressed','false')});
+  b.setAttribute('aria-pressed','true');var p=PICKS[b.dataset.k];
+  document.getElementById('dName').textContent=p[0];document.getElementById('dDesc').textContent=p[1];document.getElementById('dPrice').textContent=p[2];
+})});
+var tabs=document.getElementById('tabs'),board=document.getElementById('board');
+Object.keys(MENU).forEach(function(c,i){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.id='t'+i;b.textContent=c;b.setAttribute('aria-selected',i===0?'true':'false');b.addEventListener('click',function(){show(c,b)});tabs.appendChild(b)});
+function show(c,btn){tabs.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-selected','false')});btn.setAttribute('aria-selected','true');board.innerHTML='';
+ MENU[c].forEach(function(d){var li=document.createElement('li');[['n',d[0]],['v',d[1]],['p',d[2]+' ₽']].forEach(function(s){var e=document.createElement('span');e.className=s[0];e.textContent=s[1];li.appendChild(e)});board.appendChild(li)})}
+show('Классика',document.getElementById('t0'));
+document.getElementById('copyPhone').addEventListener('click',function(e){var b=e.currentTarget;try{navigator.clipboard.writeText('+79911225271').then(function(){b.textContent='Скопировано'},function(){b.textContent='+79911225271'})}catch(err){b.textContent='+79911225271'}});
+</script>
+
+</body>
+</html>
